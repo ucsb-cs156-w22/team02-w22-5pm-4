@@ -108,7 +108,7 @@ The easy way, using the Heroku CLI:
     You should get output like this:
 
     ```
-    Setting GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ADMIN_EMAILS and restarting ⬢ demo-spring-react-example... done, v6
+    Setting GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, ADMIN_EMAILS and restarting ⬢ starter-team02... done, v6
     ```
 
     You can check the values by visiting the `Settings` tab 
@@ -154,7 +154,7 @@ For example, when I was getting this error message, it's because I put in this f
 
 ![image](https://user-images.githubusercontent.com/1119017/149856340-98acd5e4-8712-4723-a899-e3bf2f06d3fa.png)
 
-Rookie mistake!  I literally had `my-heroku-app` instead of `demo-spring-react-example`. 
+Rookie mistake!  I literally had `my-heroku-app` instead of `starter-team02`. 
 
 Change it to the correct URI, click save.  Then go back to the URL for the home page of your app and refresh the page (you don't need to restart the Heroku backend; just refresh your browser page.)  Click login again, and you should get something like this:
 

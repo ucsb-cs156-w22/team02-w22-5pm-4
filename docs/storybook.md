@@ -12,10 +12,10 @@ First, you'll need to set up two repos that have the same name as this repo, in 
 * `-docs`
 * `-docs-qa`
 
-For example, for `demo-spring-react-example`, you set up:
+For example, for `starter-team02`, you set up:
 
-* `demo-spring-react-example-docs`, which is updated when changes are merged to the main branch
-* `demo-spring-react-example-docs-qa`, which is updated each time a pull request to the main branch is made
+* `starter-team02-docs`, which is updated when changes are merged to the main branch
+* `starter-team02-docs-qa`, which is updated each time a pull request to the main branch is made
 
 Note that the contents of the qa repo will reflect the *most recent* push to a branch that has an open pull-request, so if there are multiple pull requests,
 it may be ambiguous.  Future work might include creating separate directories under the docs-qa folder with names for each branch, and a job that deletes these when these branches are merged to `main`.
@@ -49,8 +49,8 @@ Finally, at the top of the README.md there shoudl be two links for the Storybook
 ```
 Storybook is here:
 
-Production: https://ucsb-cs156-w22.github.io/demo-spring-react-example-docs/
-QA: https://ucsb-cs156-w22.github.io/demo-spring-react-example-docs-qa/
+Production: https://ucsb-cs156-w22.github.io/starter-team02-docs/
+QA: https://ucsb-cs156-w22.github.io/starter-team02-docs-qa/
 ```
 
 Each of the URLs has this form:

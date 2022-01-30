@@ -1,8 +1,8 @@
-# demo-spring-react-example-v2: dsre-v2
+# starter-team02: dsre-v2
 
 Storybook is here:
-* Production: <https://ucsb-cs156-w22.github.io/demo-spring-react-example-v2-docs/>
-* QA:  <https://ucsb-cs156-w22.github.io/demo-spring-react-example-v2-docs-qa/>
+* Production: <https://ucsb-cs156-w22.github.io/starter-team02-docs/>
+* QA:  <https://ucsb-cs156-w22.github.io/starter-team02-docs-qa/>
 
 The GitHub actions script to deploy the Storybook to QA requires some configuration; see [docs/github-actions.md](docs/github-actions.md) for details.
 
@@ -87,14 +87,14 @@ To access the swagger API endpoints, use:
   - Example:
    
     ```
-    [pconrad@csilvm-03 ~]$ heroku psql --app demo-spring-react-example
+    [pconrad@csilvm-03 ~]$ heroku psql --app starter-team02
     ›   Warning: heroku update available from 7.59.1 to 7.59.2.
     --> Connecting to postgresql-tapered-84555
     psql (13.4, server 13.5 (Ubuntu 13.5-2.pgdg20.04+1))
     SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
     Type "help" for help.
 
-    demo-spring-react-example::DATABASE=> 
+    starter-team02::DATABASE=> 
     ```
 * On Heroku, without CLI: 
   - Upper right of dashboard, select "More" then "Run Console"

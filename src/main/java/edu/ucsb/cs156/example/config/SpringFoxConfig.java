@@ -34,7 +34,7 @@ public class SpringFoxConfig {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("demo-spring-react-example-v2", "<a href=\"/\">home</a>", null, null, null, null, null, Collections.EMPTY_LIST);
+        return new ApiInfo("starter-team02", "<a href=\"/\">home</a>", null, null, null, null, null, Collections.EMPTY_LIST);
     }
 
 }
