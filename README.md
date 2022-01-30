@@ -42,6 +42,17 @@ If you see the following on localhost, make sure that you also have the frontend
 Failed to connect to the frontend server... On Heroku, be sure that PRODUCTION is defined.  On localhost, open a second terminal window, cd into frontend and type: npm install; npm start";
 ```
 
+# Maven Commants
+
+| Command | Explanation |
+|-|-|
+| `mvn clean` | Removes `target` directory, which resets all compilation as well as the local H2 database |
+| `mvn compile` | Compile the application code |
+| `mvn test-compile` | Compile the test code |
+| `mvn test` | Run JUnit tests |
+| `mvn test jacoco:report` | Compute Test Case Coverage  for Java code|
+| `mvn test org.pitest:pitest-maven:mutationCoverage` | Run mutation testing for Java code  |
+
 # Getting Started on Heroku
 
 On Heroku, you'll need to set the following configuration variable:
