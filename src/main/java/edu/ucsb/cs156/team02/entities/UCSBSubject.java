@@ -13,6 +13,13 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
+import javax.persistence.*;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,12 +35,12 @@ public class UCSBSubject {
   // can access the user's details
 
   // @ManyToOne
-  // @JoinColumn(name = "user_id")
-  
-  private boolean inactive;
+  // @JoinColumn(name = "ucsb_subjects")
+
   private String subjectCode;
   private String subjectTranslation;
   private String deptCode;
   private String collegeCode;
   private String relatedDeptCode;
+  private boolean inactive;
 }
