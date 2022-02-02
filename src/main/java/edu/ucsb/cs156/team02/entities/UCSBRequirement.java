@@ -32,5 +32,5 @@ public class UCSBRequirement {
   // This establishes that many todos can belong to one user
   // Only the user_id is stored in the table, and through it we
   // can access the user's details
-
+  
 }
