@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface TodoRepository extends CrudRepository<Todo, Long> {
+public interface TodoRepository extends CrudRepository<CollegeSubreddit, Long> {
   Iterable<CollegeSubreddit> findByName(String name);
   Iterable<CollegeSubreddit> findBySubreddit(String subreddit);
 }
