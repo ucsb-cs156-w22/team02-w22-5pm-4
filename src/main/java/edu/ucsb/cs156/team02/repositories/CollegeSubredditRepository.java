@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface CollegeSubredditRepository extends CrudRepository<CollegeSubreddit, Long> {
-  Iterable<CollegeSubreddit> findByName(String name);
-  Iterable<CollegeSubreddit> findBySubreddit(String subreddit);
+  //Iterable<CollegeSubreddit> findByName(String name);
+  //Iterable<CollegeSubreddit> findBySubreddit(String subreddit);
 }
