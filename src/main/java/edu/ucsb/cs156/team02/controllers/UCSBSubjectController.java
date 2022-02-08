@@ -32,8 +32,7 @@ import java.util.Optional;
 @RestController
 @Slf4j
 public class UCSBSubjectController extends ApiController {
-    // Inner class helps to check if a collegiate subreddit exists, and it helps
-    // with giving an error message.
+
     public class UCSBSubjectOrError {
         Long id;
         UCSBSubject ucsbSubject;
@@ -66,7 +65,7 @@ public class UCSBSubjectController extends ApiController {
             @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
         loggingService.logMethod();
 
-        // soe to shorten "(ucsb) subject or error"
+        
         UCSBSubjectOrError soe = new UCSBSubjectOrError(id);
 
         soe = doesUCSBSubjectExist(soe);
