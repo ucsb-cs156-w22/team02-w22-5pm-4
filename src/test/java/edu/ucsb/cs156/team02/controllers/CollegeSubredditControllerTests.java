@@ -37,7 +37,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
     @MockBean
     UserRepository userRepository;
 
-    @WithMockUser(roles = { "USER" })
+    @WithMockUser(roles = { "USER", "ADMIN" })
     @Test
     public void api_collegesubreddit_post() throws Exception{
         // arrange
@@ -64,7 +64,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         assertEquals(expectedJson, responseString);
     }
 
-    @WithMockUser(roles = { "ADMIN" })
+    @WithMockUser(roles = { "USER", "ADMIN" })
     @Test
     public void api_collegesubreddit_get_all_collegesubreddits() throws Exception{
         // arrange
@@ -87,7 +87,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         when(collegeSubredditRepository.findAll()).thenReturn(expectedCollegeSubreddits);
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/admin/all"))
+        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/all"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -98,15 +98,15 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         assertEquals(expectedJson, responseString);
     }
 
-    @WithMockUser(roles = { "ADMIN" })
+    @WithMockUser(roles = { "USER","ADMIN" })
     @Test
-    public void api_collegesubreddits_admin_search_for_collegesubreddit_that_exists() throws Exception {
+    public void api_collegesubreddits_search_for_collegesubreddit_that_exists() throws Exception {
 
         CollegeSubreddit collegeSubreddit1 = CollegeSubreddit.builder().name("Test Name").location("Test Location").subreddit("Test Subreddit").id(7L).build();
         when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.of(collegeSubreddit1));
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/admin/getbyid?id=1"))
+        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/getbyid?id=1"))
                 .andExpect(status().isOk()).andReturn();
 
         // assert
@@ -117,7 +117,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         assertEquals(expectedJson, responseString);
     }
     
-    @WithMockUser(roles = { "ADMIN" })
+    @WithMockUser(roles = { "USER","ADMIN" })
     @Test
     public void api_collegesubreddits_admin_search_for_collegesubreddit_that_does_not_exist() throws Exception {
 
@@ -126,7 +126,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         when(collegeSubredditRepository.findById(eq(29L))).thenReturn(Optional.empty());
 
         // act
-        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/admin/getbyid?id=29"))
+        MvcResult response = mockMvc.perform(get("/api/collegesubreddits/getbyid?id=29"))
                 .andExpect(status().isBadRequest()).andReturn();
 
         // assert

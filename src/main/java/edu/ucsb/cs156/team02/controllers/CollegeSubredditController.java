@@ -55,8 +55,8 @@ public class CollegeSubredditController extends ApiController {
     ObjectMapper mapper;
 
     @ApiOperation(value = "List all collegesubreddits")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/all")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/all")
     public Iterable<CollegeSubreddit> allUsersCollegeSubreddits() {
         loggingService.logMethod();
         Iterable<CollegeSubreddit> collegesubreddits = collegeSubredditRepository.findAll();
@@ -64,7 +64,7 @@ public class CollegeSubredditController extends ApiController {
     }
 
     @ApiOperation(value = "Create a new CollegeSubreddit")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @PostMapping("/post")
     public CollegeSubreddit postCollegeSubreddit(
             @ApiParam("College Name") @RequestParam String name,
@@ -83,8 +83,8 @@ public class CollegeSubredditController extends ApiController {
     }
 
     @ApiOperation(value = "Get a single college subreddit")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/admin/getbyid")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @GetMapping("/getbyid")
     public ResponseEntity<String> getCollegeSubredditById(
             @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
         loggingService.logMethod();
