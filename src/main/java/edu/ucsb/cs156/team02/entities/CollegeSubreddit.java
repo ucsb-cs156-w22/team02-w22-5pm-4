@@ -21,7 +21,7 @@ public class CollegeSubreddit {
         id = idInput;
         name = c.name;
         location = c.location;
-        subreddit = c.location;
+        subreddit = c.subreddit;
     }
 }
 

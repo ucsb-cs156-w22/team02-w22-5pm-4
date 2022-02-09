@@ -87,7 +87,7 @@ public class CollegeSubredditController extends ApiController {
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
     @GetMapping("/getbyid")
     public ResponseEntity<String> getCollegeSubredditById(
-            @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
+            @ApiParam("id of college to look up subreddit") @RequestParam Long id) throws JsonProcessingException {
         loggingService.logMethod();
 
         CollegeSubredditOrError coe = new CollegeSubredditOrError(id);
@@ -126,9 +126,9 @@ public class CollegeSubredditController extends ApiController {
 
     @ApiOperation(value = "Update a single college subreddit")
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @PutMapping("/put")
+    @PutMapping("")
     public ResponseEntity<String> putCollegeSubredditById(
-            @ApiParam("id") @RequestParam Long id,
+            @ApiParam("id of college subreddit to edit") @RequestParam Long id,
             @RequestBody @Valid CollegeSubredditNoId incomingCollegeSubredditNoId) throws JsonProcessingException {
         loggingService.logMethod();
 
@@ -145,5 +145,37 @@ public class CollegeSubredditController extends ApiController {
 
         String body = mapper.writeValueAsString(incomingCollegeSubreddit);
         return ResponseEntity.ok().body(body);
+    }
+
+    @ApiOperation(value = "Delete a college subreddit by ID")
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteCollegeSubreddit(
+            @ApiParam("id") @RequestParam Long id) {
+        loggingService.logMethod();
+
+        CollegeSubredditOrError coe = new CollegeSubredditOrError(id);
+
+        coe = doesCollegeSubredditExistOrDelete(coe);
+        if (coe.error != null) {
+            return coe.error;
+        }
+
+        collegeSubredditRepository.deleteById(id);
+        return ResponseEntity.ok().body(String.format("record %d deleted", id));
+
+    }
+
+    public CollegeSubredditOrError doesCollegeSubredditExistOrDelete(CollegeSubredditOrError coe) {
+
+        Optional<CollegeSubreddit> optionalCollegeSubreddit = collegeSubredditRepository.findById(coe.id);
+
+        if (optionalCollegeSubreddit.isEmpty()) {
+            coe.error = ResponseEntity
+                    .badRequest()
+                    .body(String.format("record %d not found", coe.id));
+        } else {
+            coe.collegesubreddit = optionalCollegeSubreddit.get();
+        }
+        return coe;
     }
 }

@@ -11,7 +11,8 @@ import javax.persistence.*;
 @Builder
 @Entity(name = "college_subreddits_no_id")
 public class CollegeSubredditNoId {
-  public String name;
-  public String location;
-  public String subreddit;
+    @Id
+    public String name;
+    public String location;
+    public String subreddit;
 }

@@ -4,6 +4,7 @@ import edu.ucsb.cs156.team02.repositories.UserRepository;
 import edu.ucsb.cs156.team02.testconfig.TestConfig;
 import edu.ucsb.cs156.team02.ControllerTestCase;
 import edu.ucsb.cs156.team02.entities.CollegeSubreddit;
+import edu.ucsb.cs156.team02.entities.CollegeSubredditNoId;
 import edu.ucsb.cs156.team02.repositories.CollegeSubredditRepository;
 
 import org.junit.jupiter.api.Test;
@@ -135,4 +136,124 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         String responseString = response.getResponse().getContentAsString();
         assertEquals("id 29 not found", responseString);
     }
+
+    @WithMockUser(roles = { "USER", "ADMIN" })
+    @Test
+    public void api_collegesubreddits_put_collegesubreddit() throws Exception {
+        // arrange
+        CollegeSubreddit collegeSubreddit1 = CollegeSubreddit.builder()
+            .name("Test Name 1")
+            .location("Test Location 1")
+            .subreddit("Test Subreddit 1")
+            .id(1L)
+            .build();
+
+        CollegeSubredditNoId updatedCollegeSubredditNoId = CollegeSubredditNoId.builder()
+            .name("Test Name New")
+            .location("Test Location New")
+            .subreddit("Test Subreddit New")
+            .build();
+        
+        CollegeSubreddit updatedCollegeSubreddit = new CollegeSubreddit(1, updatedCollegeSubredditNoId);
+        String expectedReturn = mapper.writeValueAsString(updatedCollegeSubreddit);
+        String requestBody = mapper.writeValueAsString(updatedCollegeSubreddit);
+        //String expectedReturn = mapper.writeValueAsString(correctTodo);
+
+        when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.of(collegeSubreddit1));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/collegesubreddits/getbyid?id=1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(collegeSubredditRepository, times(1)).findById(1L);
+        verify(collegeSubredditRepository, times(1)).save(updatedCollegeSubreddit);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedReturn, responseString);
+    }
+    
+    @WithMockUser(roles = { "USER", "ADMIN" })
+    @Test
+    public void api_collegesubreddits_user_cannot_put_collegesubreddit_that_does_not_exist() throws Exception {
+        // arrange
+
+        CollegeSubredditNoId updatedCollegeSubredditNoId = CollegeSubredditNoId.builder()
+            .name("New Name")
+            .location("New Location")
+            .subreddit("New Subreddit")
+            .build();
+
+        CollegeSubreddit updatedCollegeSubreddit = new CollegeSubreddit(67L, updatedCollegeSubredditNoId);
+
+        String requestBody = mapper.writeValueAsString(updatedCollegeSubreddit);
+
+        when(collegeSubredditRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/collegesubreddits/getbyid?id=67")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        // assert
+        verify(collegeSubredditRepository, times(1)).findById(67L);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals("id 67 not found", responseString);
+    }
+
+    @Test
+    public void api_subjects__delete_collegesubreddits_that_exists() throws Exception {
+
+    // arrange
+
+    CollegeSubreddit req1 = CollegeSubreddit.builder()
+    .name("Test Name")
+    .location("Test Location")
+    .subreddit("Test Subreddit")
+    .id(1L)
+    .build();
+
+    when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.of(req1));
+
+    // act
+    MvcResult response = mockMvc.perform(
+        delete("/api/collegesubreddits/getbyid?id=1")
+                .with(csrf()))
+        .andExpect(status().isOk()).andReturn();
+
+    // assert
+
+    verify(collegeSubredditRepository, times(1)).findById(1L);
+    verify(collegeSubredditRepository, times(1)).deleteById(1L);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals("record 1 deleted", responseString);
+    }
+
+    @Test
+    public void api_collegesubreddits_delete_collegesubreddits_that_does_not_exist() throws Exception {
+
+    // arrange
+
+    when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.empty());
+
+    MvcResult response = mockMvc.perform(
+    delete("/api/collegesubreddit/getbyid?id=1")
+    .with(csrf()))
+    .andExpect(status().isBadRequest()).andReturn();
+
+    // assert
+
+    verify(collegeSubredditRepository, times(1)).findById(1L);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals("record 1 not found", responseString);
+    }
+    
 }
