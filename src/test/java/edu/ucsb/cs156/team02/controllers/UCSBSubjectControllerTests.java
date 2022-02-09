@@ -43,14 +43,14 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
 
     @Test
     public void api_ucsbSubject_all__logged_out__returns_403() throws Exception {
-        mockMvc.perform(get("/api/ucsbSubjects/all"))
+        mockMvc.perform(get("/api/UCSBSubjects/all"))
                 .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void api_ucsbSubject_all__user_logged_in__returns_200() throws Exception {
-        mockMvc.perform(get("/api/ucsbSubjects/all"))
+        mockMvc.perform(get("/api/UCSBSubjects/all"))
                 .andExpect(status().isOk());
     }
 
@@ -58,14 +58,14 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
 
     @Test
     public void api_ucsbSubject_post__logged_out__returns_403() throws Exception {
-        mockMvc.perform(post("/api/ucsbSubjects/post"))
+        mockMvc.perform(post("/api/UCSBSubjects/post"))
                 .andExpect(status().is(403));
     }
 
     @WithMockUser(roles = { "USER" })
     @Test
     public void api_ucsbSubject_post__logged_out__returns_200() throws Exception {
-        mockMvc.perform(get("/api/ucsbSubjects/all"))
+        mockMvc.perform(get("/api/UCSBSubjects/all"))
                 .andExpect(status().isOk());
     }
 
@@ -82,7 +82,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findAll()).thenReturn(expectedUCSBSubjects);
 
         
-        MvcResult response = mockMvc.perform(get("/api/ucsbSubjects/all"))
+        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects/all"))
                 .andExpect(status().isOk()).andReturn();
 
         
@@ -112,7 +112,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
 
         
         MvcResult response = mockMvc.perform(
-                post("/api/ucsbSubjects/post?subjectCode=Test Code&subjectTranslation=Test Translation&deptCode=Test DeptCode&collegeCode=Test CollegeCode&relatedDeptCode=Test RelatedDeptCode&inactive=true")
+                post("/api/UCSBSubjects/post?subjectCode=Test Code&subjectTranslation=Test Translation&deptCode=Test DeptCode&collegeCode=Test CollegeCode&relatedDeptCode=Test RelatedDeptCode&inactive=true")
                         .with(csrf()))
                 .andExpect(status().isOk()).andReturn();
 
@@ -136,7 +136,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findById(eq(7L))).thenReturn(Optional.of(ucsbSubject7));
 
         
-        MvcResult response = mockMvc.perform(get("/api/ucsbSubjects?id=7"))
+        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects?id=7"))
                 .andExpect(status().isOk()).andReturn();
 
         
@@ -158,7 +158,7 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
         when(ucsbSubjectRepository.findById(eq(7L))).thenReturn(Optional.empty());
 
         
-        MvcResult response = mockMvc.perform(get("/api/ucsbSubjects?id=7"))
+        MvcResult response = mockMvc.perform(get("/api/UCSBSubjects?id=7"))
                 .andExpect(status().isBadRequest()).andReturn();
 
         
@@ -167,54 +167,117 @@ public class UCSBSubjectControllerTests extends ControllerTestCase {
         String responseString = response.getResponse().getContentAsString();
         assertEquals("UCSBSubject with id 7 not found", responseString);
     }
-//     @Test
-//     public void api_subjects__delete_subjects() throws Exception {
+    @Test
+    public void api_subjects__delete_subjects() throws Exception {
 
-//     // arrange
+    // arrange
 
-//     UCSBSubject req1 = UCSBSubject.builder()
-//     .subjectCode("subjectCode")
-//     .subjectTranslation("subjectTranslation")
-//     .collegeCode("collegeCode")
-//     .deptCode("deptCode")
-//     .collegeCode("collegeCode")
-//     .relatedDeptCode("relatedDeptCode")
-//     .inactive(false)
-//     .id(123L).build();
+    UCSBSubject req1 = UCSBSubject.builder()
+    .subjectCode("subjectCode")
+    .subjectTranslation("subjectTranslation")
+    .collegeCode("collegeCode")
+    .deptCode("deptCode")
+    .collegeCode("collegeCode")
+    .relatedDeptCode("relatedDeptCode")
+    .inactive(false)
+    .id(123L).build();
 
-//     when(ucsbSubjectRepository.findById(eq(123L))).thenReturn(Optional.of(req1));
+    when(ucsbSubjectRepository.findById(eq(123L))).thenReturn(Optional.of(req1));
 
-//     // act
-//     MvcResult response = mockMvc.perform(
-//         delete("/api/UCSBSubjects?id=123")
-//                 .with(csrf()))
-//         .andExpect(status().isOk()).andReturn();
+    // act
+    MvcResult response = mockMvc.perform(
+        delete("/api/UCSBSubjects?id=123")
+                .with(csrf()))
+        .andExpect(status().isOk()).andReturn();
 
-//     // assert
+    // assert
 
-//     verify(ucsbSubjectRepository, times(1)).findById(123L);
-//     verify(ucsbSubjectRepository, times(1)).deleteById(123L);
-//     String responseString = response.getResponse().getContentAsString();
-//     assertEquals("record 123 deleted", responseString);
-//     }
+    verify(ucsbSubjectRepository, times(1)).findById(123L);
+    verify(ucsbSubjectRepository, times(1)).deleteById(123L);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals("record 123 deleted", responseString);
+    }
 
-//     @Test
-//     public void api_subjects__delete_subjects_that_does_not_exist() throws Exception {
+    @Test
+    public void api_subjects__delete_subjects_that_does_not_exist() throws Exception {
 
-//     // arrange
+    // arrange
 
-//     when(ucsbSubjectRepository.findById(eq(123L))).thenReturn(Optional.empty());
+    when(ucsbSubjectRepository.findById(eq(123L))).thenReturn(Optional.empty());
 
-//     MvcResult response = mockMvc.perform(
-//     delete("/api/UCSBSubjects?id=123")
-//     .with(csrf()))
-//     .andExpect(status().isBadRequest()).andReturn();
+    MvcResult response = mockMvc.perform(
+    delete("/api/UCSBSubjects?id=123")
+    .with(csrf()))
+    .andExpect(status().isBadRequest()).andReturn();
 
-//     // assert
+    // assert
 
-//     verify(ucsbSubjectRepository, times(1)).findById(123L);
-//     String responseString = response.getResponse().getContentAsString();
-//     assertEquals("record 123 not found", responseString);
-//     }
+    verify(ucsbSubjectRepository, times(1)).findById(123L);
+    String responseString = response.getResponse().getContentAsString();
+    assertEquals("record 123 not found", responseString);
+    }
+
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void api_subjects__user_logged_in__put_subject() throws Exception {
+        // arrange
+
+        
+        UCSBSubject ucsbSubject7 = UCSBSubject.builder().subjectCode("UCSBSubject Code 7")
+                .subjectTranslation("UCSBsubject Translation 7").deptCode("UCSBSubject deptCode 7").collegeCode("UCSBSubject collegeCode 7").relatedDeptCode("UCSB relatedDeptCode 7").inactive(false).id(7L).build();
+        
+        UCSBSubject updatedUCSBSubject = UCSBSubject.builder().subjectCode("New UCSBSubject Code 7")
+                .subjectTranslation("New UCSBsubject Translation 7").deptCode("New UCSBSubject deptCode 7").collegeCode("New UCSBSubject collegeCode 7").relatedDeptCode("New UCSB relatedDeptCode 7").inactive(false).id(7L).build();
+        
+        UCSBSubject correctUCSBSubject = UCSBSubject.builder().subjectCode("New UCSBSubject Code 7")
+                .subjectTranslation("New UCSBsubject Translation 7").deptCode("New UCSBSubject deptCode 7").collegeCode("New UCSBSubject collegeCode 7").relatedDeptCode("New UCSB relatedDeptCode 7").inactive(false).id(7L).build();
+
+        String requestBody = mapper.writeValueAsString(updatedUCSBSubject);
+        String expectedReturn = mapper.writeValueAsString(correctUCSBSubject);
+
+        when(ucsbSubjectRepository.findById(eq(7L))).thenReturn(Optional.of(ucsbSubject7));
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/UCSBSubjects?id=7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isOk()).andReturn();
+
+        // assert
+        verify(ucsbSubjectRepository, times(1)).findById(7L);
+        verify(ucsbSubjectRepository, times(1)).save(correctUCSBSubject); // should be saved with correct user
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals(expectedReturn, responseString);
+    }
+
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void api_subjects__user_logged_in__cannot_put_subject_that_does_not_exist() throws Exception {
+        // arrange
+
+        UCSBSubject updatedUCSBSubject = UCSBSubject.builder().subjectCode("UCSBSubject Code 7")
+                .subjectTranslation("UCSBsubject Translation 7").deptCode("UCSBSubject deptCode 7").collegeCode("UCSBSubject collegeCode 7").relatedDeptCode("UCSB relatedDeptCode 7").inactive(false).id(7L).build();
+        
+        String requestBody = mapper.writeValueAsString(updatedUCSBSubject);
+
+        when(ucsbSubjectRepository.findById(eq(67L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/UCSBSubjects?id=7")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        // assert
+        verify(ucsbSubjectRepository, times(1)).findById(7L);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals("UCSBSubject with id 7 not found", responseString);
+    }
 
 }
