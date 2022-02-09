@@ -56,7 +56,7 @@ public class CollegeSubredditController extends ApiController {
     ObjectMapper mapper;
 
     @ApiOperation(value = "List all collegesubreddits")
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')") 
     @GetMapping("/all")
     public Iterable<CollegeSubreddit> allUsersCollegeSubreddits() {
         loggingService.logMethod();
@@ -125,8 +125,8 @@ public class CollegeSubredditController extends ApiController {
     }
 
     @ApiOperation(value = "Update a single college subreddit")
-    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
-    @PutMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PutMapping("put")
     public ResponseEntity<String> putCollegeSubredditById(
             @ApiParam("id of college subreddit to edit") @RequestParam Long id,
             @RequestBody @Valid CollegeSubredditNoId incomingCollegeSubredditNoId) throws JsonProcessingException {
@@ -148,9 +148,10 @@ public class CollegeSubredditController extends ApiController {
     }
 
     @ApiOperation(value = "Delete a college subreddit by ID")
-    @DeleteMapping("")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @DeleteMapping("delete")
     public ResponseEntity<String> deleteCollegeSubreddit(
-            @ApiParam("id") @RequestParam Long id) {
+            @ApiParam("id of college subreddit to delete") @RequestParam Long id) {
         loggingService.logMethod();
 
         CollegeSubredditOrError coe = new CollegeSubredditOrError(id);

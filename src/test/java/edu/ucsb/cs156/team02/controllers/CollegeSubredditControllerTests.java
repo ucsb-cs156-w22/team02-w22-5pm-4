@@ -163,7 +163,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
 
         // act
         MvcResult response = mockMvc.perform(
-                put("/api/collegesubreddits/getbyid?id=1")
+                put("/api/collegesubreddits/put?id=1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(requestBody)
@@ -196,7 +196,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
 
         // act
         MvcResult response = mockMvc.perform(
-                put("/api/collegesubreddits/getbyid?id=67")
+                put("/api/collegesubreddits/put?id=67")
                         .contentType(MediaType.APPLICATION_JSON)
                         .characterEncoding("utf-8")
                         .content(requestBody)
@@ -209,34 +209,36 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
         assertEquals("id 67 not found", responseString);
     }
 
+    @WithMockUser(roles = { "ADMIN" })
     @Test
-    public void api_subjects__delete_collegesubreddits_that_exists() throws Exception {
+        public void api_subjects__delete_collegesubreddits_that_exists() throws Exception {
 
-    // arrange
+        // arrange
 
-    CollegeSubreddit req1 = CollegeSubreddit.builder()
-    .name("Test Name")
-    .location("Test Location")
-    .subreddit("Test Subreddit")
-    .id(1L)
-    .build();
+        CollegeSubreddit req1 = CollegeSubreddit.builder()
+        .name("Test Name")
+        .location("Test Location")
+        .subreddit("Test Subreddit")
+        .id(1L)
+        .build();
 
-    when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.of(req1));
+        when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.of(req1));
 
-    // act
-    MvcResult response = mockMvc.perform(
-        delete("/api/collegesubreddits/getbyid?id=1")
-                .with(csrf()))
-        .andExpect(status().isOk()).andReturn();
+        // act
+        MvcResult response = mockMvc.perform(
+            delete("/api/collegesubreddits/delete?id=1")
+                    .with(csrf()))
+            .andExpect(status().isOk()).andReturn();
 
-    // assert
+        // assert
 
-    verify(collegeSubredditRepository, times(1)).findById(1L);
-    verify(collegeSubredditRepository, times(1)).deleteById(1L);
-    String responseString = response.getResponse().getContentAsString();
-    assertEquals("record 1 deleted", responseString);
+        verify(collegeSubredditRepository, times(1)).findById(1L);
+        verify(collegeSubredditRepository, times(1)).deleteById(1L);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals("record 1 deleted", responseString);
     }
 
+    @WithMockUser(roles = { "ADMIN" })
     @Test
     public void api_collegesubreddits_delete_collegesubreddits_that_does_not_exist() throws Exception {
 
@@ -245,7 +247,7 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
     when(collegeSubredditRepository.findById(eq(1L))).thenReturn(Optional.empty());
 
     MvcResult response = mockMvc.perform(
-    delete("/api/collegesubreddit/getbyid?id=1")
+    delete("/api/collegesubreddits/delete?id=1")
     .with(csrf()))
     .andExpect(status().isBadRequest()).andReturn();
 
@@ -254,6 +256,6 @@ public class CollegeSubredditControllerTests extends ControllerTestCase{
     verify(collegeSubredditRepository, times(1)).findById(1L);
     String responseString = response.getResponse().getContentAsString();
     assertEquals("record 1 not found", responseString);
-    }
     
-}
+    
+}}
