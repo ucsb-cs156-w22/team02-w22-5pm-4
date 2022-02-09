@@ -26,7 +26,7 @@ public class UCSBRequirement {
   private String collegeCode;
   private String objCode;
   private int courseCount;
-  private String units;
+  private int units;
   private boolean inactive;
 
   // This establishes that many todos can belong to one user
