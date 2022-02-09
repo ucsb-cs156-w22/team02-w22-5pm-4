@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.team02.controllers;
 
 import edu.ucsb.cs156.team02.entities.CollegeSubreddit;
+import edu.ucsb.cs156.team02.entities.CollegeSubredditNoId;
 import edu.ucsb.cs156.team02.entities.User;
 import edu.ucsb.cs156.team02.models.CurrentUser;
 import edu.ucsb.cs156.team02.repositories.CollegeSubredditRepository;
@@ -121,5 +122,28 @@ public class CollegeSubredditController extends ApiController {
             coe.collegesubreddit = optionalCollegeSubreddit.get();
         }
         return coe;
+    }
+
+    @ApiOperation(value = "Update a single college subreddit")
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_ADMIN')")
+    @PutMapping("/put")
+    public ResponseEntity<String> putCollegeSubredditById(
+            @ApiParam("id") @RequestParam Long id,
+            @RequestBody @Valid CollegeSubredditNoId incomingCollegeSubredditNoId) throws JsonProcessingException {
+        loggingService.logMethod();
+
+        CollegeSubreddit incomingCollegeSubreddit = new CollegeSubreddit(id, incomingCollegeSubredditNoId);
+        CollegeSubredditOrError coe = new CollegeSubredditOrError(id);
+
+        coe = doesCollegeSubredditExist(coe);
+        if (coe.error != null) {
+            return coe.error;
+        }
+
+        incomingCollegeSubreddit.setId(id);
+        collegeSubredditRepository.save(incomingCollegeSubreddit);
+
+        String body = mapper.writeValueAsString(incomingCollegeSubreddit);
+        return ResponseEntity.ok().body(body);
     }
 }
