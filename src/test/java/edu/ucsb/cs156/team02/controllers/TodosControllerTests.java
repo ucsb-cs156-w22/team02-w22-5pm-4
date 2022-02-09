@@ -527,5 +527,32 @@ public class TodosControllerTests extends ControllerTestCase {
         assertEquals(expectedJson, responseString);
     }
 
-    
+    @WithMockUser(roles = { "ADMIN" })
+    @Test
+    public void api_todos__admin_logged_in__cannot_put_todo_that_does_not_exist() throws Exception {
+        // arrange
+
+        User otherUser = User.builder().id(345L).build();
+        Todo updatedTodo = Todo.builder().title("New Title").details("New Details").done(true).user(otherUser).id(77L)
+                .build();
+
+        String requestBody = mapper.writeValueAsString(updatedTodo);
+
+        when(todoRepository.findById(eq(77L))).thenReturn(Optional.empty());
+
+        // act
+        MvcResult response = mockMvc.perform(
+                put("/api/todos/admin?id=77")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding("utf-8")
+                        .content(requestBody)
+                        .with(csrf()))
+                .andExpect(status().isBadRequest()).andReturn();
+
+        // assert
+        verify(todoRepository, times(1)).findById(77L);
+        String responseString = response.getResponse().getContentAsString();
+        assertEquals("todo with id 77 not found", responseString);
+    }
+
 }
