@@ -81,4 +81,45 @@ public class CollegeSubredditController extends ApiController {
         CollegeSubreddit savedCollegeSubreddit = collegeSubredditRepository.save(collegesubreddit);
         return savedCollegeSubreddit;
     }
+
+    @ApiOperation(value = "Get a single college subreddit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/getbyid")
+    public ResponseEntity<String> getCollegeSubredditById(
+            @ApiParam("id") @RequestParam Long id) throws JsonProcessingException {
+        loggingService.logMethod();
+
+        CollegeSubredditOrError coe = new CollegeSubredditOrError(id);
+
+        coe = doesCollegeSubredditExist(coe);
+        if (coe.error != null) {
+            return coe.error;
+        }
+
+        String body = mapper.writeValueAsString(coe.collegesubreddit);
+        return ResponseEntity.ok().body(body);
+    }
+
+    /**
+     * Pre-conditions: coe.id is value to look up, coe.todo and coe.error are null
+     * 
+     * Post-condition: if collegesubreddit with id coe.id exists, coe.todo now refers to it, and
+     * error is null.
+     * Otherwise, collegesubreddit with id coe.id does not exist, and error is a suitable return
+     * value to
+     * report this error condition.
+     */
+    public CollegeSubredditOrError doesCollegeSubredditExist(CollegeSubredditOrError coe) {
+
+        Optional<CollegeSubreddit> optionalCollegeSubreddit = collegeSubredditRepository.findById(coe.id);
+
+        if (optionalCollegeSubreddit.isEmpty()) {
+            coe.error = ResponseEntity
+                    .badRequest()
+                    .body(String.format("id %d not found", coe.id));
+        } else {
+            coe.collegesubreddit = optionalCollegeSubreddit.get();
+        }
+        return coe;
+    }
 }
