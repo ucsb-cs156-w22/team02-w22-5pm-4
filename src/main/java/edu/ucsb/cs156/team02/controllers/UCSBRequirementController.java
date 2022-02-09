@@ -134,7 +134,7 @@ public class UCSBRequirementController extends ApiController {
 
         UCSBRequirementOrError roe = new UCSBRequirementOrError(id);
 
-        roe = doesUCSBRequirementExist(roe);
+        roe = doesUCSBRequirementExistForDelete(roe);
         if (roe.error != null) {
             return roe.error;
         }
@@ -149,10 +149,23 @@ public class UCSBRequirementController extends ApiController {
         if (optionalUCSBRequirement.isEmpty()) {
             soe.error = ResponseEntity
                     .badRequest()
-                    .body(String.format("UCSBRequirement with id %d not found", soe.id));
+                    .body(String.format("id %d not found", soe.id));
         } else {
             soe.UCSBRequirement = optionalUCSBRequirement.get();
         }
-        return null;
+        return soe;
 	}
+
+    private UCSBRequirementOrError doesUCSBRequirementExistForDelete(UCSBRequirementOrError soe) {
+		Optional<UCSBRequirement> optionalUCSBRequirement = UCSBRequirementRepository.findById(soe.id);
+        if (optionalUCSBRequirement.isEmpty()) {
+            soe.error = ResponseEntity
+                    .badRequest()
+                    .body(String.format("record %d not found", soe.id));
+        } else {
+            soe.UCSBRequirement = optionalUCSBRequirement.get();
+        }
+        return soe;
+	}
+
 }
