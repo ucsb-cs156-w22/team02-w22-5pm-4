@@ -43,4 +43,14 @@ public class UCSBSubject {
   private String collegeCode;
   private String relatedDeptCode;
   private boolean inactive;
+
+  public UCSBSubject(long idInput, UCSBSubjectNoId c) {
+        id = idInput;
+        subjectCode = c.subjectCode;
+        subjectTranslation = c.subjectTranslation;
+        deptCode = c.deptCode;
+        collegeCode = c.collegeCode;
+        relatedDeptCode = c.relatedDeptCode;
+        inactive = c.inactive;
+    }
 }

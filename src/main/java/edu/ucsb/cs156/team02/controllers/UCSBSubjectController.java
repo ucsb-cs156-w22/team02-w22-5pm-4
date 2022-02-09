@@ -1,6 +1,7 @@
 package edu.ucsb.cs156.team02.controllers;
 
 import edu.ucsb.cs156.team02.entities.UCSBSubject;
+import edu.ucsb.cs156.team02.entities.UCSBSubjectNoId;
 import edu.ucsb.cs156.team02.entities.User;
 import edu.ucsb.cs156.team02.models.CurrentUser;
 import edu.ucsb.cs156.team02.repositories.UCSBSubjectRepository;
@@ -147,9 +148,10 @@ public class UCSBSubjectController extends ApiController {
     @PutMapping("")
     public ResponseEntity<String> putUCSBSubjectById_admin(
             @ApiParam("id") @RequestParam Long id,
-            @RequestBody @Valid UCSBSubject incomingUCSBSubject) throws JsonProcessingException {
+            @RequestBody @Valid UCSBSubjectNoId incomingUCSBSubjectNoId) throws JsonProcessingException {
         loggingService.logMethod();
 
+        UCSBSubject incomingUCSBSubject = new UCSBSubject(id,incomingUCSBSubjectNoId);
         UCSBSubjectOrError toe = new UCSBSubjectOrError(id);
 
         toe = doesUCSBSubjectExist(toe);
