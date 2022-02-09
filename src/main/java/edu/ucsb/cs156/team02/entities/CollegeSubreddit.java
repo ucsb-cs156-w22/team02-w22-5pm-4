@@ -6,7 +6,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import javax.persistence.*;
 @Data
 @AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Builder
 @Entity(name = "college_subreddits")
 public class CollegeSubreddit {
