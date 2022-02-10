@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+
+import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,8 +35,16 @@ public class UCSBRequirement {
   private int units;
   private boolean inactive;
 
-  // This establishes that many todos can belong to one user
-  // Only the user_id is stored in the table, and through it we
-  // can access the user's details
+  public UCSBRequirement (long idInput, UCSBRequirementNoId t) {
+      id = idInput;
+      requirementCode = t.requirementCode;
+      requirementTranslation = t.requirementTranslation;
+      collegeCode = t.collegeCode;
+      objCode = t.objCode;
+      courseCount = t.courseCount;
+      units = t.units;
+      inactive = t.inactive;
+  
+  }
   
 }

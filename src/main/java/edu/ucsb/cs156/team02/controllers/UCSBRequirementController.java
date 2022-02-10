@@ -1,6 +1,8 @@
 package edu.ucsb.cs156.team02.controllers;
 
 import edu.ucsb.cs156.team02.entities.UCSBRequirement;
+import edu.ucsb.cs156.team02.entities.UCSBRequirementNoId;
+
 import edu.ucsb.cs156.team02.entities.User;
 import edu.ucsb.cs156.team02.models.CurrentUser;
 import edu.ucsb.cs156.team02.repositories.UCSBRequirementRepository;
@@ -108,9 +110,10 @@ public class UCSBRequirementController extends ApiController {
     @PutMapping("")
     public ResponseEntity<String> putUCSBRequirementById_admin(
         @ApiParam("id") @RequestParam Long id,
-        @RequestBody @Valid UCSBRequirement incomingUCSBRequirement) throws JsonProcessingException {
+        @RequestBody @Valid UCSBRequirementNoId incomingUCSBRequirementNoId) throws JsonProcessingException {
         loggingService.logMethod();
 
+        UCSBRequirement incomingUCSBRequirement = new UCSBRequirement(id,incomingUCSBRequirementNoId);
         UCSBRequirementOrError toe = new UCSBRequirementOrError(id);
 
         toe = doesUCSBRequirementExist(toe);
